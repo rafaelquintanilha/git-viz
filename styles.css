@@ -118,6 +118,29 @@ body {
   color: var(--accent);
   font-weight: 600;
 }
+.toolbar .stats {
+  display: flex;
+  gap: 16px;
+  padding: 8px 14px;
+  background: rgba(110, 231, 175, 0.08);
+  border-radius: 8px;
+  border: 1px solid rgba(110, 231, 175, 0.15);
+}
+.toolbar .stat-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+.toolbar .stat-label {
+  color: var(--muted);
+  font-weight: 500;
+}
+.toolbar .stat-item > span:last-child {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 15px;
+}
 .group {
   display: inline-flex;
   gap: 8px;

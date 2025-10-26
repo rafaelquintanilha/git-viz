@@ -27,6 +27,8 @@ let history = []; // [{command, description, snapshot, ts}]
 const el = (id) => document.getElementById(id);
 const graphEl = el("graph");
 const headBranchEl = el("head-branch");
+const commitCountEl = el("commit-count");
+const branchCountEl = el("branch-count");
 const checkoutSelect = el("checkout-branch");
 const mergeSelect = el("merge-branch");
 const graphContainer = document.getElementById("graph-container");
@@ -246,15 +248,24 @@ function escapeHtml(s) {
 
 function renderControls() {
   headBranchEl.textContent = state.head.branch;
+
+  // Update stats
+  commitCountEl.textContent = state.commits.length;
+  branchCountEl.textContent = Object.keys(state.branches).length;
+
+  // Update HEAD indicator color based on current branch
+  const currentBranchColor = state.branches[state.head.branch]?.color || "#6ee7af";
+  headBranchEl.style.color = currentBranchColor;
+
   // checkout options
   checkoutSelect.innerHTML = Object.keys(state.branches)
-    .map((b) => `<option value="${b}">${b}</option>`) 
+    .map((b) => `<option value="${b}">${b}</option>`)
     .join("");
   checkoutSelect.value = state.head.branch;
   // merge options (exclude current)
   mergeSelect.innerHTML = Object.keys(state.branches)
     .filter((b) => b !== state.head.branch)
-    .map((b) => `<option value="${b}">${b}</option>`) 
+    .map((b) => `<option value="${b}">${b}</option>`)
     .join("");
 }
 
