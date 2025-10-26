@@ -178,6 +178,13 @@ svg#graph {
   stroke: #ffffff;
   stroke-width: 4;
 }
+.commit-id {
+  fill: #0b0e1e;
+  font-size: 10px;
+  font-weight: bold;
+  pointer-events: none;
+  user-select: none;
+}
 .label {
   fill: var(--text);
   font-size: 12px;
@@ -248,6 +255,75 @@ svg#graph {
 .history-item .command {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
+}
+
+/* Modal Dialog */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal.hidden {
+  display: none;
+}
+.modal-content {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+.modal-content h2 {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+}
+.modal-content input {
+  width: 100%;
+  margin-bottom: 16px;
+  padding: 10px 12px;
+}
+.default-messages {
+  margin-bottom: 20px;
+}
+.default-messages p {
+  margin: 0 0 10px 0;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+.default-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.default-btn {
+  padding: 8px 12px;
+  font-size: 12px;
+  background: var(--secondary);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.default-btn:hover {
+  background: var(--accent);
+  color: #062b20;
+  border-color: var(--accent);
+}
+.modal-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+.modal-buttons button {
+  flex: 1;
 }
 
 /* Responsive */

@@ -53,6 +53,31 @@
       </div>
     </main>
 
+    <!-- Commit Message Dialog -->
+    <div id="commit-dialog" class="modal hidden">
+      <div class="modal-content">
+        <h2>Edit Commit Message</h2>
+        <input id="commit-message-input" type="text" placeholder="Enter commit message" />
+
+        <div class="default-messages">
+          <p>Quick defaults:</p>
+          <div class="default-buttons">
+            <button class="default-btn" data-message="fix: ">fix</button>
+            <button class="default-btn" data-message="feature: ">feature</button>
+            <button class="default-btn" data-message="docs: ">docs</button>
+            <button class="default-btn" data-message="refactor: ">refactor</button>
+            <button class="default-btn" data-message="chore: ">chore</button>
+            <button class="default-btn" data-message="test: ">test</button>
+          </div>
+        </div>
+
+        <div class="modal-buttons">
+          <button id="btn-save-message" class="primary">Save</button>
+          <button id="btn-cancel-message" class="secondary">Cancel</button>
+        </div>
+      </div>
+    </div>
+
     <script src="app.js"></script>
   </body>
   </html>

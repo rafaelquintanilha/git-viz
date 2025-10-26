@@ -32,6 +32,11 @@ const mergeSelect = el("merge-branch");
 const graphContainer = document.getElementById("graph-container");
 const commitCard = document.getElementById("commit-card");
 const historyListEl = document.getElementById("history-list");
+const commitDialog = el("commit-dialog");
+const commitMessageInput = el("commit-message-input");
+
+// Dialog state
+let editingCommitId = null;
 
 // Utils
 function newCommitId() {
@@ -183,6 +188,16 @@ function renderGraph() {
     }
     circle.addEventListener("click", () => selectCommit(c));
     graphEl.appendChild(circle);
+
+    // Add commit ID text in the middle of the circle
+    const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    text.setAttribute("x", c.x);
+    text.setAttribute("y", c.y);
+    text.setAttribute("class", "commit-id");
+    text.setAttribute("text-anchor", "middle");
+    text.setAttribute("dominant-baseline", "middle");
+    text.textContent = c.id;
+    graphEl.appendChild(text);
   }
 
   // branch tags at tips (dynamic background width)
@@ -217,9 +232,10 @@ function renderGraph() {
 
 function selectCommit(c) {
   selectedCommitId = c.id;
+  editingCommitId = c.id;
   renderAll();
   centerOnCommit(c);
-  showCommitCard(c);
+  openCommitDialog(c);
 }
 
 function escapeHtml(s) {
@@ -275,6 +291,41 @@ function bindUI() {
     resetRepo();
   });
   document.getElementById("btn-undo")?.addEventListener("click", () => undoLast());
+
+  // Dialog event listeners
+  document.getElementById("btn-save-message").addEventListener("click", saveCommitMessage);
+  document.getElementById("btn-cancel-message").addEventListener("click", closeCommitDialog);
+
+  // Default message buttons
+  document.querySelectorAll(".default-btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const prefix = e.target.getAttribute("data-message");
+      commitMessageInput.value = prefix;
+      commitMessageInput.focus();
+      commitMessageInput.setSelectionRange(prefix.length, prefix.length);
+    });
+  });
+
+  // Close dialog on Escape key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !commitDialog.classList.contains("hidden")) {
+      closeCommitDialog();
+    }
+  });
+
+  // Close dialog on background click
+  commitDialog.addEventListener("click", (e) => {
+    if (e.target === commitDialog) {
+      closeCommitDialog();
+    }
+  });
+
+  // Save on Enter key in input
+  commitMessageInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      saveCommitMessage();
+    }
+  });
 }
 
 // Init
@@ -303,6 +354,39 @@ function showCommitCard(c) {
 
 function hideCommitCard() {
   commitCard.classList.add('hidden');
+}
+
+function openCommitDialog(c) {
+  commitMessageInput.value = c.message;
+  commitMessageInput.focus();
+  commitMessageInput.select();
+  commitDialog.classList.remove('hidden');
+}
+
+function closeCommitDialog() {
+  commitDialog.classList.add('hidden');
+  editingCommitId = null;
+}
+
+function saveCommitMessage() {
+  if (!editingCommitId) return;
+  const message = commitMessageInput.value.trim();
+  if (!message) {
+    alert('Please enter a commit message');
+    return;
+  }
+
+  const commit = state.commits.find((c) => c.id === editingCommitId);
+  if (commit) {
+    recordHistory(`git commit --amend -m '${message}'`, "Update commit message.");
+    commit.message = message;
+  }
+
+  closeCommitDialog();
+  renderAll();
+  if (commit) {
+    showCommitCard(commit);
+  }
 }
 
 function centerOnCommit(c) {
