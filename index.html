@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Git Viz — Interactive Git Visualizer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="main">
+      <section class="toolbar box">
+        <div class="toolbar-row">
+          <div class="status">HEAD → <span id="head-branch">master</span></div>
+          <button id="btn-add-commit" class="primary lg">Add Commit</button>
+
+          <div class="group">
+            <input id="branch-name" placeholder="branch-name" />
+            <button id="btn-create-branch" class="lg">Create Branch</button>
+          </div>
+
+          <div class="group">
+            <label for="checkout-branch">Checkout</label>
+            <select id="checkout-branch"></select>
+            <button id="btn-checkout" class="lg">Go</button>
+          </div>
+
+          <div class="group">
+            <label for="merge-branch">Merge from</label>
+            <select id="merge-branch"></select>
+            <button id="btn-merge" class="lg">Merge</button>
+          </div>
+
+          <button id="btn-reset" class="secondary lg">Reset</button>
+        </div>
+      </section>
+
+      <div class="layout">
+        <section class="canvas box">
+          <div id="graph-container" class="graph-wrapper">
+            <svg id="graph" xmlns="http://www.w3.org/2000/svg"></svg>
+            <div id="commit-card" class="commit-card hidden"></div>
+          </div>
+          <div class="hint">Click a commit to see details. Use the toolbar to build and merge branches.</div>
+        </section>
+
+        <aside class="history box">
+          <h2>Command History</h2>
+          <div class="history-controls">
+            <button id="btn-undo" class="secondary">Undo Last</button>
+          </div>
+          <div id="history-list" class="history-list"></div>
+        </aside>
+      </div>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+  </html>
