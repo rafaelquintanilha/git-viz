@@ -50,7 +50,7 @@ body {
   flex-direction: column;
   gap: 12px;
   padding: 12px;
-  min-height: 100vh;
+  height: 100vh;
 }
 
 .layout {
@@ -125,9 +125,15 @@ select {
 }
 
 /* Canvas */
+.canvas {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
 .graph-wrapper {
   flex: 1;
-  overflow: auto;
+  overflow: hidden;
   background: linear-gradient(
     180deg,
     rgba(255, 255, 255, 0.02),
@@ -211,6 +217,7 @@ svg#graph {
 .history {
   display: flex;
   flex-direction: column;
+  min-height: 0;
 }
 .history-controls {
   display: flex;
